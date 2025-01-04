@@ -2,3 +2,6 @@
 [application]
 host = "127.0.0.1"
 base_url = "http://127.0.0.1"
+
+[oauth2_client]
+redirect_uri = "http://127.0.0.1:8080/google/auth"

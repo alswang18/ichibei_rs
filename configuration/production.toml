@@ -1,3 +1,6 @@
 # configuration/production.toml
 [application]
 host = "0.0.0.0"
+
+[oauth2_client]
+redirect_uri = "https://alecapps.com/google/auth"

@@ -8,8 +8,15 @@ pub struct ApplicationSettings {
 }
 
 #[derive(serde::Deserialize, Clone)]
+pub struct OAuth2ClientSettings {
+    pub redirect_uri: String,
+    pub timeout_ms: u64,
+}
+
+#[derive(serde::Deserialize, Clone)]
 pub struct Settings {
     pub application: ApplicationSettings,
+    pub oauth2_client: OAuth2ClientSettings,
 }
 
 pub enum Environment {
