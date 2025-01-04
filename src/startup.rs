@@ -6,6 +6,10 @@ use std::net::TcpListener;
 async fn health_check() -> HttpResponse {
     HttpResponse::Ok().finish()
 }
+// Print hell world to return
+async fn hello_world() -> HttpResponse {
+    HttpResponse::Ok().body("Hello World")
+}
 
 pub struct Application {
     port: u16,
@@ -20,9 +24,10 @@ impl Application {
             "{}:{}",
             configuration.application.host, configuration.application.port
         );
+        println!("Address {}", address);
+
         let listener = TcpListener::bind(address)?;
         let port = listener.local_addr().unwrap().port();
-        println!("Listening on port {}", port);
         let server = run(listener).await?;
         // We "save" the bound port in one of `Application`'s fields
         Ok(Self { port, server })
@@ -37,8 +42,12 @@ impl Application {
 }
 
 pub async fn run(listener: TcpListener) -> Result<Server, std::io::Error> {
-    let server = HttpServer::new(|| App::new().route("/health_check", web::get().to(health_check)))
-        .listen(listener)?
-        .run();
+    let server = HttpServer::new(|| {
+        App::new()
+            .route("/", web::get().to(hello_world))
+            .route("/health_check", web::get().to(health_check))
+    })
+    .listen(listener)?
+    .run();
     Ok(server)
 }
